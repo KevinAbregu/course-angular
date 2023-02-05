@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!--
+          Create a Form with the following Controls and Validators
+          1) Project Name (should not be empty)
+          2) Mail (should not be a empty and a valid email)
+          3) Project Status Dropdown, with three values: 'Stable', 'Critical', 'Finished'
+          4) Submit Button
+
+          Add your own Validator which doesn't allow "Test" as a Project Name
+
+          Also implement that Validator as an async Validator (replace the other one)
+
+          Upon submitting the form, simply print the value to the console
+      -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="projectName">Project Name</label>
+          <input type="text" class="form-control" name="projectName" id="projectName" formControlName="projectName">
+          <span *ngIf="!form.get('projectName').valid && form.get('projectName').touched" class="help-block">
+            <span *ngIf="form.get('projectName').errors?.nameIsForbidden">This name is invalid!</span>
+            <span *ngIf="form.get('projectName').errors?.required">This field can't be empty</span>
+          </span>
+
+        </div>
+        <div class="form-group">
+          <label for="mail">Mail</label>
+          <input class="form-control" type="email" name="mail" id="mail" formControlName="mail">
+          <span *ngIf="!form.get('mail').valid && form.get('mail').touched" class="help-block">
+            <span *ngIf="form.get('mail').errors?.email">Please enter a valid Email!</span>
+            <span *ngIf="!form.get('mail').errors?.email">This field can't be empty</span>
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="status">Project Status</label>
+          <select class="form-control" name="status" id="status" formControlName="projectStatus">
+            <option *ngFor="let status of projectStatus" [value]="status">{{status}}</option>
+          </select>
+        </div>
+        <button [disabled]="!form.valid" type="submit" class="btn btn-primary">Submit</button>
+        <span class="help-block" *ngIf="!form.valid && form.touched">Please enter valid data!</span>
+      </form>
+    </div>
+  </div>
+</div>
